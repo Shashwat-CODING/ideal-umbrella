@@ -27,7 +27,7 @@ export async function getSimilarTracks(
   apiKey: string,
   limit: string
 ): Promise<SimplifiedTrack[] | { error: string }> {
-  const url = `https://ws.audioscrobbler.com/2.0/?method=track.getsimilar&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(title)}&api_key=${apiKey}&limit=${limit}&format=json`;
+  const url = `https://ws.audioscrobbler.com/2.0/?method=track.getsimilar&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(title)}&api_key=0867bcb6f36c879398969db682a7b69b&limit=${limit}&format=json`;
 
   try {
     const response = await fetch(url);
