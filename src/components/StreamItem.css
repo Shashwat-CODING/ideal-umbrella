@@ -1,0 +1,140 @@
+.streamItem {
+	width: 100%;
+	user-select: none;
+	color: var(--text);
+	margin-bottom: var(--gap);
+	padding: var(--size-2);
+	border: var(--border);
+	border-radius: var(--roundness);
+	display: flex;
+	align-items: center;
+	position: relative;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	text-decoration: none;
+	overflow: hidden;
+	cursor: pointer;
+	background: color-mix(in srgb, var(--onBg) 20%, transparent);
+	backdrop-filter: blur(24px);
+
+	div,
+	span {
+		pointer-events: none;
+		transition: opacity 0.4s;
+	}
+
+	&:hover {
+		background-color: var(--onBg2);
+		color: var(--text2);
+		transform: translateY(-2px);
+		box-shadow: var(--shadow-2);
+		border-color: var(--text2);
+	}
+
+	&.ravel {
+		* {
+			opacity: 0;
+		}
+	}
+
+
+	span {
+		position: relative;
+		z-index: 0;
+		margin-right: var(--size-3);
+
+		img {
+			max-height: var(--size-9);
+			max-width: var(--size-11);
+			border-radius: calc(var(--roundness) * 0.8);
+			box-shadow: var(--shadow-1);
+			transition: transform 0.3s ease;
+		}
+
+		.duration {
+			position: absolute;
+			padding: 2px 6px;
+			bottom: 4px;
+			right: 4px;
+			background-color: rgba(0, 0, 0, 0.7);
+			backdrop-filter: blur(12px);
+			color: #fff;
+			border-radius: 4px;
+			font-size: var(--font-size-00);
+			font-weight: var(--font-weight-6);
+			letter-spacing: 0.5px;
+		}
+	}
+
+	&:hover span img {
+		transform: scale(1.05);
+	}
+
+	div {
+		height: 100%;
+		width: auto;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 4px;
+
+
+		.title {
+			max-height: 100%;
+			line-height: 1.4;
+			font-size: var(--font-size-1);
+			overflow: hidden;
+			text-overflow: ellipsis;
+			font-weight: 600;
+			letter-spacing: var(--font-letterspacing-1);
+			margin-bottom: 0;
+		}
+
+		.avu {
+			height: auto;
+			overflow: hidden;
+			line-height: 1.4;
+			width: 100%;
+
+			p {
+				font-size: var(--font-size-0);
+				font-weight: 500;
+				letter-spacing: var(--font-letterspacing-1);
+				opacity: 0.8;
+			}
+
+		}
+	}
+
+	i {
+		height: var(--size-8);
+		width: var(--size-8);
+		font-size: var(--font-size-3);
+		z-index: 2;
+		position: absolute;
+		right: var(--size-3);
+		top: 50%;
+		transform: translateY(-50%);
+		border-radius: 50%;
+		opacity: 1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+		transition: all 0.2s;
+		background: var(--onBg);
+		box-shadow: var(--shadow-1);
+
+		&:hover {
+			background: var(--text);
+			color: var(--bg);
+			transform: translateY(-50%) scale(1.1);
+		}
+
+	}
+
+}
+
+
+#queuelist>a {
+	transition: initial;
+}

@@ -1,0 +1,1 @@
+import{F as t,m as r,ag as n,ah as o,ai as l,p as i}from"./index-BIf49YX_.js";async function m(s,a){if(a||t("status",r("player_audiostreams_setup")),!s.length){t("status",r("player_audiostreams_null")),t("playbackState","none");return}const e=await n(o(s));(a||i.audio).src=l(e.url,!!a)}export{m as default};

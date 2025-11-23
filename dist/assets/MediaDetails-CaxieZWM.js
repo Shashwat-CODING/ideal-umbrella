@@ -1,0 +1,1 @@
+import{t as i,i as r,p as t,b as l,P as o,aa as n}from"./index-BIf49YX_.js";var p=i("<div class=mediaDetails><a id=title target=_blank></a><p id=author>");function m(){return(()=>{var a=p(),e=a.firstChild,s=e.nextSibling;return r(e,()=>t.status||t.stream.title),r(s,()=>t.stream.author.replace("- Topic","")),l(()=>o(e,"href",n(`/watch?v=${t.stream.id}`))),a})()}export{m as M};

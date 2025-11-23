@@ -1,0 +1,455 @@
+@import 'open-props/normalize.min.css';
+@import 'remixicon.css';
+@import 'header.css';
+
+:root {
+  --source: initial;
+  --schemeMultiplier: initial;
+  --bg: initial;
+  --text: initial;
+  --chroma: 0;
+  --scheme: color-mix(in srgb, oklch(from var(--source) 70% calc(c * var(--chroma)) h), var(--bg) 85%);
+  --onBg: color-mix(in srgb, oklch(from var(--source) 85% calc(c * var(--chroma)) h), var(--bg) 85%);
+  --onBg2: color-mix(in srgb, oklch(from var(--source) 60% calc(35% * var(--chroma)) h), var(--bg) 70%);
+  --blurMix: color-mix(in srgb, oklch(from var(--onBg) l calc(c * var(--chroma)) / 0.2), var(--bg) 20%);
+  --text2: color-mix(in srgb, oklch(from var(--source) 50% calc(60% * var(--chroma)) h), var(--text) 75%);
+  --gap: var(--size-fluid-2);
+  --borderColor: rgba(255, 255, 255, 0.1);
+  --border: 1px solid var(--borderColor);
+  --roundness: 1.5rem;
+  --blur: blur(48px);
+  --player-bg: none;
+  --player-bp: 0 0;
+  --landscape-sections: 2;
+  --trueBg: var(--bg);
+
+  /* Enhanced Shadows */
+  --shadow-1: 0 8px 24px -4px rgba(0, 0, 0, 0.1), 0 4px 8px -2px rgba(0, 0, 0, 0.1);
+  --shadow-2: 0 20px 48px -8px rgba(0, 0, 0, 0.2), 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+  --shadow-inner: inset 0 2px 4px 0 rgba(255, 255, 255, 0.05);
+}
+
+html {
+  height: 100dvh;
+  background: var(--trueBg);
+}
+
+body {
+  height: 100dvh;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+}
+
+main {
+  color: color-mix(in srgb, oklch(from var(--source) 50% calc(c * var(--chroma)) h), var(--text) 60%);
+  display: flex;
+  height: 100%;
+  overflow-x: auto;
+  flex-direction: row;
+  scroll-snap-type: x mandatory;
+
+  section {
+    height: 100%;
+    flex: 1 0 0;
+    padding: var(--gap) var(--size-fluid-3);
+    padding-top: 0;
+    overflow-y: auto;
+    scroll-snap-align: start;
+    min-width: calc(100dvw / var(--landscape-sections));
+    flex-shrink: 0;
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  @media(orientation:landscape) {
+    section:first-child {
+      padding-left: var(--size-fluid-5);
+    }
+
+    section:last-child {
+      padding-right: var(--size-fluid-5);
+    }
+
+    section:only-child {
+      .hub {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--gap);
+      }
+
+      &:has(>img) {
+        overflow: initial !important;
+
+        .list-thumbnail {
+          display: inline-block;
+          height: calc(100% - var(--size-12));
+          margin: 0;
+          margin-right: var(--gap);
+          vertical-align: middle;
+          border-radius: var(--roundness);
+          box-shadow: var(--shadow-2);
+        }
+
+        .listContainer {
+          height: calc(100% - var(--size-10));
+          width: calc(100% - var(--size-13));
+          display: inline-block;
+          vertical-align: top;
+          margin: 0 !important;
+          overflow-y: auto !important;
+        }
+      }
+
+      .searchlist,
+      .listContainer {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--gap);
+
+        .streamItem {
+          display: inline-flex;
+          width: 100%;
+          grid-column: span 2;
+          margin: 0;
+        }
+
+        .listItem {
+          width: 100%;
+          grid-column: span 1;
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  @media (orientation: portrait) {
+    section {
+      flex: 0 0 100%;
+      scroll-snap-align: center;
+      padding: 0 var(--gap);
+      padding-bottom: calc(var(--size-9) + var(--size-8) + var(--size-8));
+      /* Miniplayer + Navbar + Spacing */
+    }
+  }
+}
+
+dialog {
+  margin: auto;
+  padding: var(--size-4);
+  width: 100dvw;
+  border-radius: var(--roundness);
+  box-shadow: var(--shadow-2);
+  border: var(--border);
+  background: color-mix(in srgb, var(--bg) 50%, transparent);
+  backdrop-filter: var(--blur);
+
+  @media(orientation:landscape) {
+    width: calc(100dvw / 1.5);
+    margin-left: calc(100dvw / 3);
+  }
+
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px);
+  }
+
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes spinner {
+  from {
+    transform: rotate(0turn)
+  }
+
+  to {
+    transform: rotate(1turn)
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.ri-loader-3-line {
+  display: block;
+  font-size: var(--font-size-6);
+  animation: spinner 1s cubic-bezier(0.645, 0.045, 0.355, 1) infinite;
+  text-align: center;
+  margin-top: auto;
+}
+
+select {
+  font-family: inherit;
+  background: none;
+  outline: none;
+  color: var(--text);
+  border: var(--border);
+  border-radius: var(--roundness);
+  padding: var(--size-1) var(--size-2);
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: var(--onBg);
+  }
+
+  option,
+  optgroup {
+    cursor: pointer;
+    background: var(--bg);
+  }
+}
+
+a {
+  color: var(--text);
+  text-decoration: none;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.displayer {
+  white-space: pre;
+  background: color-mix(in srgb, var(--onBg) 40%, transparent);
+  backdrop-filter: var(--blur);
+  box-shadow: var(--shadow-2);
+  border: var(--border);
+  color: var(--text);
+  border-radius: var(--roundness);
+  width: calc(100dvmin - calc(var(--gap) - var(--border-size-1)) * 2);
+  margin: auto;
+  padding: var(--size-4);
+  animation: slideUp 0.3s ease-out;
+
+  &::backdrop {
+    background-color: #0008;
+    backdrop-filter: blur(8px);
+  }
+
+  &[open] {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: var(--gap);
+  }
+
+  input {
+    background: rgba(255, 255, 255, 0.05);
+    border: var(--border);
+    border-radius: var(--size-2);
+    font-weight: var(--font-weight-5);
+    height: var(--size-8);
+    font-size: var(--font-size-2);
+    padding: 0 var(--size-3);
+    transition: border-color 0.2s, background-color 0.2s;
+
+    &:focus {
+      border-color: var(--text);
+      background: rgba(255, 255, 255, 0.1);
+      outline: none;
+    }
+
+    &::placeholder {
+      color: var(--text2);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  span {
+    width: 100%;
+    display: flex;
+    margin-top: var(--size-2);
+    gap: var(--size-2);
+
+    button {
+      background-color: var(--text);
+      color: var(--bg);
+      border-radius: var(--roundness);
+      padding: var(--size-2) var(--size-4);
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.1s, opacity 0.2s;
+
+      &:hover {
+        opacity: 0.9;
+        transform: scale(1.02);
+      }
+
+      &:active {
+        transform: scale(0.98);
+      }
+    }
+
+    button.ri-close-large-line {
+      margin-left: auto;
+      background: transparent;
+      color: var(--text);
+      padding: var(--size-2);
+
+      &:hover {
+        background: var(--onBg);
+      }
+    }
+  }
+
+  h4 {
+    margin-bottom: var(--size-4);
+    font-size: var(--font-size-4);
+    font-weight: 700;
+  }
+}
+
+i {
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s;
+
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
+/* button hover info */
+i[aria-label]:hover::after {
+  pointer-events: none;
+  position: absolute;
+  content: attr(aria-label);
+  font-size: var(--font-size-0);
+  font-family: inherit;
+  font-weight: var(--font-weight-5);
+  background: var(--text);
+  color: var(--bg);
+  right: 50%;
+  transform: translateX(50%);
+  top: 100%;
+  margin-top: var(--size-2);
+  z-index: 100;
+  padding: var(--size-1) var(--size-2) !important;
+  border-radius: var(--size-1);
+  animation: appear 0.2s ease-out forwards;
+  white-space: nowrap;
+  box-shadow: var(--shadow-1);
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateX(50%) translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(50%) translateY(0);
+  }
+}
+
+footer {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  bottom: var(--size-1);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: calc(100% - var(--size-4));
+  max-width: 500px;
+  height: auto;
+  background: color-mix(in srgb, var(--bg) 40%, transparent);
+  backdrop-filter: blur(64px);
+  border-radius: var(--roundness);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  border: var(--border);
+  padding: var(--size-1);
+
+  @media(orientation:landscape) {
+    width: 300px;
+    left: 50%;
+    transform: translateX(calc(-100% - var(--size-2)));
+    bottom: var(--size-4);
+    margin: 0;
+  }
+}
+
+.floating-player-container {
+  position: fixed;
+  bottom: calc(var(--size-2) + var(--size-9) + var(--size-1));
+  /* footer bottom + footer height (approx) + smaller gap */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  width: calc(100% - var(--size-4));
+  max-width: 500px;
+  background: color-mix(in srgb, var(--bg) 40%, transparent);
+  backdrop-filter: blur(64px);
+  border-radius: var(--roundness);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: var(--border);
+  overflow: hidden;
+  animation: slideUp 0.3s ease-out;
+
+  @media(orientation:landscape) {
+    width: 300px;
+    left: 50%;
+    transform: translateX(var(--size-2));
+    bottom: var(--size-4);
+  }
+}
+
+.snackbar {
+  position: fixed;
+  z-index: 1000;
+  bottom: var(--size-4);
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 300px;
+  max-width: 90vw;
+  padding: var(--size-3) var(--size-4);
+  background: color-mix(in srgb, var(--bg) 50%, transparent);
+  backdrop-filter: blur(32px);
+  color: var(--text);
+  border: var(--border);
+  border-radius: var(--roundness);
+  box-shadow: var(--shadow-2);
+  animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  text-align: center;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+
+  &:hover {
+    opacity: 0.9;
+    transform: translateX(-50%) scale(1.02);
+  }
+
+  &:active {
+    transform: translateX(-50%) scale(0.98);
+  }
+}

@@ -1,0 +1,26 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[[edge_functions]]
+  path = "/cs/meta/:hash"
+  function = "syncManifest"
+
+[[edge_functions]]
+  path = "/cs/tracks/:hash"
+  function = "syncTracks"
+
+[[edge_functions]]
+  path = "/.netlify/functions/syncContent/:timestamp?"
+  function = "syncContent"
+
+[[edge_functions]]
+  path = "/.netlify/functions/syncBulkTracks/:userId"
+  function = "syncBulkTracks"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
